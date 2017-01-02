@@ -1,3 +1,6 @@
+/**
+*Created by Arkadiusz Kraus
+**/
 #include<iostream>
 #include<ctime>
 #include<cstdlib>

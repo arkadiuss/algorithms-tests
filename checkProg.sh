@@ -1,3 +1,6 @@
+###########################
+#Created by Arkadiusz Kraus
+###########################
 name=$1
 numberOfTests=$2
 mode=$3
