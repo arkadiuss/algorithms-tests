@@ -34,10 +34,10 @@ Struktura testu
               -brute
               -usertests
           -metro_plan
-            -in
-            -out
-            -checker
-            -prog
+              -in
+              -out
+              -checker
+              -prog
             
 Podprogramy
 System zawiera kilka podprogramów ułatwiających tworzenie testu:
