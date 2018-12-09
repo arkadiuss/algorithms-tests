@@ -15,15 +15,16 @@ echo $numberOfTests >> $pathGen/progname
 $pathGen/./gen < $pathGen/progname
 
 echo "compiling programs"
-g++ $name/prog/$name.cpp -o $pathGen/prog
-g++ $name/brute/$name.cpp -o $pathGen/brute
-g++ $name/checker/$name.cpp -o $pathGen/checker
+g++ --std=c++14 $name/prog/$name.cpp -o $pathGen/prog
+g++ --std=c++14 $name/brute/$name.cpp -o $pathGen/brute
+g++ --std=c++14 $name/checker/$name.cpp -o $pathGen/checker
 
 echo "generating answers to user's tests"
 numberOfUserTests=$(ls -l $name/usertests/*.in | wc -l)
 echo "there are "$numberOfUserTests" user's tests"
-for((i=1;i<=$numberOfUserTests;i++));do
-	$pathGen/./prog < $name/usertests/$name$i.in > $name/usertests/$name$i.prog.out
+for test in $name/usertests/*.in; do
+	testname="${test%%.*}"
+	$pathGen/./prog < $test > $testname.prog.out
 done
 
 echo "generating answers from program"
@@ -46,15 +47,16 @@ fi
 echo "checking user's tests"
 if [ $mode = "1" ] 
 then
-	for ((i=1;$i<=$numberOfUserTests;i++));do
-		 touch $pathGen/difference	
-		 diff $name/usertests/$name$i.prog.out $name/usertests/$name$i.out > $pathGen/difference 
-		 if [ ! -s $pathGen/difference ]; 
-		 then
-		 	echo "test "$i" - OK"
-		 else
-		 	echo "test "$i" - fail"
-		 fi		
+	for test in $name/usertests/*.in; do
+		testname="${test%%.*}"	
+		diff $testname.prog.out $testname.out > $pathGen/difference 
+		if [ ! -s $pathGen/difference ]; 
+		then
+			echo "test "$testname" - OK"
+		else
+			echo "test "$testname" - fail"
+			head -4 $pathGen/difference | tail -3
+		fi		
 	done
 else
 	for ((i=1;$i<=$numberOfUserTests;i++));do
